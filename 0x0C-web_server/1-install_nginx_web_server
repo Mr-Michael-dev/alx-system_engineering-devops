@@ -20,9 +20,22 @@ echo "server {
         server_name _;
 
         location / {
-                try_files $uri $uri/ =404;
+                try_files \$uri \$uri/ =404;
         }
 }
 " > /etc/nginx/sites-available/mypage.com
 
 ln -s /etc/nginx/sites-available/mypage.com /etc/nginx/sites-enabled/
+
+# Reload NGINX configuration without systemctl
+killall -s HUP nginx
+
+# Wait for NGINX to restart
+sleep 2
+
+# Check NGINX status
+if ps ax | pgrep -v nginx >/dev/null; then
+    echo "NGINX is running."
+else
+    echo "NGINX is not running."
+fi
