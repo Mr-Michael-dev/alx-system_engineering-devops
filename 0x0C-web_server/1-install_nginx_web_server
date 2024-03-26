@@ -10,9 +10,26 @@ mkdir -p /var/www/mypage.com/html
 
 echo "Hello World!" > /var/www/mypage.com/html/index.html
 
+
+# setup /etc/nginx/sites-available/default
 echo "server {
         listen 80 default_server;
-        listen [::]:80 default_server;
+        listen [::]:80 default_server;                     
+        root /var/www/mypage.com/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;                                     
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+}
+" > /etc/nginx/sites-available/default
+
+
+# setup /etc/nginx/sites-available/mypage.com
+echo "server {
+        listen 80;
+        listen [::]:80;
 
         root /var/www/mypage.com/html;
         index index.html index.htm index.nginx-debian.html;
