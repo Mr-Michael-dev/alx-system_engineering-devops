@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Install nginx web server on my server
+
+apt-get -y update
+apt-get -y install nginx
+
+ufw allow 'Nginx HTTP'
+
+mkdir -p /var/www/mypage.com/html
+
+echo "Hello World!" > /var/www/mypage.com/html/index.html
+
+echo "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/mypage.com/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+" > /etc/nginx/sites-available/mypage.com
+
+ln -s /etc/nginx/sites-available/mypage.com /etc/nginx/sites-enabled/
