@@ -7,14 +7,7 @@ echo "Ceci n'est pas une page" > 404_custom.html
 cp 404_custom.html /usr/share/nginx/html/
 
 # Define the custom error page configuration
-error_page_config='
-    error_page 404 /404_custom.html;
-
-    location = /404_custom.html {
-    	internal;
-	root /usr/share/nginx/html;
-}
-'
+error_page_config='    error_page 404 /404_custom.html;\n\n    location = /404_custom.html {\n        internal;\n        root /usr/share/nginx/html;\n   }\n'
 
 # Add the custom error page configuration to the Nginx configuration file
 sed -i "/http {/a $error_page_config" /etc/nginx/nginx.conf
