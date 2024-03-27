@@ -2,6 +2,14 @@
 # Configure Nginx server to have a custom 404 page that
 # contains the string 'Ceci n'est pas une page'
 
+sudo apt-get update                                                                                                   sudo apt-get -y install nginx                                                                                         sudo ufw allow 'Nginx HTTP'
+
+sudo service nginx start                                   
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+
+line="\\\trewrite ^/redirect_me https://www.linkedin.com/in
+/michael-oyedepo permanent;"                                                                                          sudo sed -i "26i $line" /etc/nginx/sites-available/default
+
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/404_custom.html
 
 sed -i '/server_name _;/a error_page 404 /404_custom.html;\nlocation = /404_custom.html {\nroot /usr/share/nginx/html;\ninternal;\n}' /etc/nginx/sites-available/default

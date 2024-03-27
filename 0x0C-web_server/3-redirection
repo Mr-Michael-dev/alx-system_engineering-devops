@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 # Configure Nginx server so that /redirect_me is redirecting to another page
 
+sudo apt-get update
+
+sudo apt-get -y install nginx
+
+sudo ufw allow 'Nginx HTTP'
+
+sudo service nginx start
+
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+
 line="\\\trewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;"
 
 sudo sed -i "26i $line" /etc/nginx/sites-available/default
