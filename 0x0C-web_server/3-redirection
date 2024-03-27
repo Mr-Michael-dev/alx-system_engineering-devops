@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 # Configure Nginx server so that /redirect_me is redirecting to another page
 
-# Define the redirection rule
-redirection_rule='    location /redirect_me {\n        return 301 https://www.linkedin.com/in/michael-oyedepo;\n    }\n'
+line="\\\trewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;"
 
-# Add the redirection rule to the Nginx configuration file
-sed -i "/server {/a $redirection_rule" /etc/nginx/nginx.conf
+sudo sed -i "26i $line" /etc/nginx/sites-available/default
 
-# Reload NGINX configuration without systemctl
-killall -s HUP nginx
+sudo service nginx restart
 
 # Wait for NGINX to restart
 sleep 2

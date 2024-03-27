@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Configure Nginx server so that /redirect_me is redirecting to another page
+
+# Define the redirection rule
+redirection_rule='    location /redirect_me {\n        return 301 https://www.linkedin.com/in/michael-oyedepo;\n    }\n'
+
+# Add the redirection rule to the Nginx configuration file
+sed -i "/server {/a $redirection_rule" /etc/nginx/nginx.conf
+
+# Reload NGINX configuration without systemctl
+killall -s HUP nginx
+
+# Wait for NGINX to restart
+sleep 2
+
+# Check NGINX status
+if ps ax | pgrep -v nginx >/dev/null; then                          echo "NGINX is running."
+else
+    echo "NGINX is not running."
+fi
