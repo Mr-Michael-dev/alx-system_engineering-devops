@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Install nginx web server on my server
+
+apt-get -y update
+apt-get -y install nginx
+
+ufw allow 'Nginx HTTP'
+
+mkdir -p /var/www/mypage.com/html
+
+echo "Hello World!" > /var/www/mypage.com/html/index.html
+
+
+# setup /etc/nginx/sites-available/default
+echo "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;                     
+        root /var/www/mypage.com/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;                                     
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+}
+" > /etc/nginx/sites-available/default
+
+
+# setup /etc/nginx/sites-available/mypage.com
+echo "server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/mypage.com/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+}
+" > /etc/nginx/sites-available/mypage.com
+
+ln -s /etc/nginx/sites-available/mypage.com /etc/nginx/sites-enabled/
+
+# Reload NGINX configuration without systemctl
+killall -s HUP nginx
+
+# Wait for NGINX to restart
+sleep 2
+
+# Check NGINX status
+if ps ax | pgrep -v nginx >/dev/null; then
+    echo "NGINX is running."
+else
+    echo "NGINX is not running."
+fi
