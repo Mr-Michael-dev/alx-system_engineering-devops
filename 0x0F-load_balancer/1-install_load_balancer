@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Install and configure HAproxy on lb-01 server                                                      # So that it sends traffic to web-01 and web-02
+# Install and configure HAproxy on lb-01 server
+# So that it sends traffic to web-01 and web-02
 
 echo "##########"
 echo "# Updating and installing packages"
@@ -11,10 +12,7 @@ echo "##########"
 echo "# Installing HAproxy"
 echo "##########"
 
-sudo apt install -y --no-install-recommends software-properties-common
-echo | sudo add-apt-repository ppa:vbernat/haproxy-2.8
-sudo apt update
-sudo apt install -y haproxy=2.8.\*
+sudo apt install -y haproxy
 
 echo "##########"
 echo "# Configuring HAproxy (backing up original)"
@@ -29,7 +27,6 @@ echo "##########"
 cat << EOF | sudo tee -a /etc/haproxy/haproxy.cfg
 frontend haproxy-main
     bind *:80
-    option forwardfor
     default_backend nginx_webservers
 EOF
 
@@ -40,9 +37,15 @@ echo "##########"
 cat << EOF | sudo tee -a /etc/haproxy/haproxy.cfg
 backend nginx_webservers
     balance roundrobin
-    server web-01  100.26.216.42:80 check
-    server web-02  54.84.238.169:80 check
+    server 221967-web-01  100.26.216.42:80 check
+    server 221967-web-02  54.84.238.169:80 check
 EOF
+
+echo "##########"
+echo "# Enabling init"
+echo "##########"
+
+echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
 echo "##########"
 echo "# Restarting HAproxy server"
