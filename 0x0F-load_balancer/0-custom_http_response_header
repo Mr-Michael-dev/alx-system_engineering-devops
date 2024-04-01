@@ -7,49 +7,49 @@
 echo '##################'
 echo '# updating'
 echo '##################'
-apt-get update
+sudo apt-get update
 
 echo '##################'
 echo '# Installing nginx'
 echo '##################'
 
-apt-get -y install nginx
+sudo apt-get -y install nginx
 
 echo '##################'
 echo '# Allowing HTTP traffic'
 echo '##################'
-ufw allow 'Nginx HTTP'                                                                  
+sudo ufw allow 'Nginx HTTP'                                                                  
 echo '##################'
 echo '# updating default page'
 echo '##################'
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
+sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
 
 echo '##################'
 echo '# updating redirection'
 echo '##################'
 
-sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;' /etc/nginx/sites-available/default
+sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;' /etc/nginx/sites-available/default
 
 echo '##################'
 echo '# Write into custom 404'
 echo '##################'
-echo "Ceci n'est pas une page" > /var/www/html/404_custom.html
+sudo echo "Ceci n'est pas une page" > /var/www/html/404_custom.html
 
 echo '##################'
 echo '# updating custom 404 page'
 echo '##################'
 
-sed -i '/server_name _;/a error_page 404 /404_custom.html;\nlocation = /404_custom.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
+sudo sed -i '/server_name _;/a error_page 404 /404_custom.html;\nlocation = /404_custom.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
 
 echo '##################'
 echo '# configuring custom header'
 echo '##################'
-sed -i "/:80 default_server;/a add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default
+sudo sed -i "/:80 default_server;/a add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default
 
 echo '##################'
 echo '# reloading'
 echo '##################'
-service nginx reload
+sudo service nginx reload
 
 # Wait for NGINX to restart
 sleep 2
