@@ -33,13 +33,13 @@ sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.link
 echo '##################'
 echo '# Write into custom 404'
 echo '##################'
-sudo echo "Ceci n'est pas une page" > /var/www/html/404_custom.html
+# sudo echo "Ceci n'est pas une page" > /var/www/html/404_custom.html
 
 echo '##################'
 echo '# updating custom 404 page'
 echo '##################'
 
-sudo sed -i '/server_name _;/a error_page 404 /404_custom.html;\nlocation = /404_custom.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
+# sudo sed -i '/server_name _;/a error_page 404 /404_custom.html;\nlocation = /404_custom.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
 
 echo '##################'
 echo '# configuring custom header'
