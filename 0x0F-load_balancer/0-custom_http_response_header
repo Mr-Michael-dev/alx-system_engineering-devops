@@ -28,7 +28,7 @@ echo '##################'
 echo '# updating redirection'
 echo '##################'
 
-sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;' /etc/nginx/sites-available/default
+#sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;' /etc/nginx/sites-available/default
 
 echo '##################'
 echo '# Write into custom 404'
