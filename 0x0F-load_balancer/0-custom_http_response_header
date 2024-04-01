@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Configure Nginx so that its HTTP response contains a custom header
+
+echo '##################'
+echo '# configuring custom header'
+echo '##################'
+sed -i "/:80 default_server;/a add_header X-Served-By $hostname;" /etc/nginx/sites-available/default
+
+echo '##################'
+echo '# reloading'
+echo '##################'
+service nginx reload
+
+# Wait for NGINX to restart
+sleep 2
+
+# Check NGINX status
+if ps ax | pgrep -v nginx >/dev/null; then
+        echo "NGINX is running."
+else
+    echo "NGINX is not running."
+fi

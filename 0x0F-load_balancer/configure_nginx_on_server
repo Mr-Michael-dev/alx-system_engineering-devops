@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Configure Nginx server to have a custom 404 page that
+# contains the string 'Ceci n'est pas une page'
+
+echo '##################'
+echo '# updating'
+echo '##################'
+apt-get update
+
+echo '##################'
+echo '# Installing nginx'
+echo '##################'
+
+apt-get -y install nginx
+
+echo '##################'
+echo '# Allowing HTTP traffic'
+echo '##################'
+ufw allow 'Nginx HTTP'
+
+echo '##################'
+echo '# updating default page'
+echo '##################'
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+
+echo '##################'
+echo '# updating redirection'
+echo '##################'
+
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.linkedin.com/in/michael-oyedepo permanent;' /etc/nginx/sites-available/default
+
+echo '##################'
+echo '# Write into custom 404'
+echo '##################'
+echo "Ceci n'est pas une page" > /var/www/html/404_custom.html
+
+echo '##################'
+echo '# updating custom 404 page'
+echo '##################'
+
+sed -i '/server_name _;/a error_page 404 /404_custom.html;\nlocation = /404_custom.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
+
+echo '##################'
+echo '# reloading'
+echo '##################'
+service nginx reload
+
+# Wait for NGINX to restart
+sleep 2
+
+# Check NGINX status
+if ps ax | pgrep -v nginx >/dev/null; then
+        echo "NGINX is running."
+else
+    echo "NGINX is not running."
+fi
