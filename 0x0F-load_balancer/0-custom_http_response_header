@@ -4,7 +4,7 @@
 echo '##################'
 echo '# configuring custom header'
 echo '##################'
-sed -i "/:80 default_server;/a add_header X-Served-By $hostname;" /etc/nginx/sites-available/default
+sed -i "/:80 default_server;/a add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default
 
 echo '##################'
 echo '# reloading'
@@ -15,7 +15,7 @@ service nginx reload
 sleep 2
 
 # Check NGINX status
-if ps ax | pgrep -v nginx >/dev/null; then
+if ps aux | grep nginx | grep -v grep >/dev/null; then
         echo "NGINX is running."
 else
     echo "NGINX is not running."
