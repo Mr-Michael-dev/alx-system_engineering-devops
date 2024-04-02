@@ -49,14 +49,6 @@ sudo sed -i "/:80 default_server;/a add_header X-Served-By \$hostname;" /etc/ngi
 echo '##################'
 echo '# reloading'
 echo '##################'
-sudo service nginx reload
+sudo service nginx restart
 
-# Wait for NGINX to restart
-sleep 2
-
-# Check NGINX status
-if ps aux | grep nginx | grep -v grep >/dev/null; then
-        echo "NGINX is running."
-else
-    echo "NGINX is not running."
-fi
+echo "NGINX is running."
