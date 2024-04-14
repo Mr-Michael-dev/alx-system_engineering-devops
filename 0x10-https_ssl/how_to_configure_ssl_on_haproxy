@@ -1,0 +1,48 @@
+*Steps to get your domain serving over HTTPS:*
+
+*1. Generating your SSL Certificate from Certbot:*
+
+_*(I) Install Certbot:*_ 
+   - sudo apt update && apt upgrade 
+   - sudo apt install certbot
+
+_*(II) Generate your SSL certificate:*_ 
+
+   - sudo service haproxy stop
+   - sudo certbot certonly --standalone -d www.example.tech
+ 
+ *:: Follow prompts and you'll have your cert ready*
+
+*2. Configuring haproxy with your certificate*
+
+_*(I) Make a combination file of your certificate and private key*_
+
+  - cd /etc/letsencrypt/live/www.example.tech/
+  - cat fullchain.pem privkey.pem > www.example.tech.pem
+
+*:: Now you have a combination of your certificate and private key*
+
+_*(II) Add the file in your haproxy.cfg file*_
+
+  - open /etc/haproxy/haproxy.cfg with a text editor.
+  - add the following line in your *fronted* section in your file: 
+
+_*bind *:443 ssl crt /etc/letsencrypt/live/www.example.tech/www.example.tech.pem*_
+
+  - lastly, add the following line in the 'global' section of the configuration file: 
+ _*tune.ssl.default-dh-param 2048*_
+
+*3. Restart HAProxy service*
+
+  - sudo service haproxy restart
+
+
+*::: That's it! Your site will now serve https*
+
+
+*Ps: If you want to redirect http traffic to https, add the following line in the backend section of the _haproxy.cfg_ file:*
+
+_*redirect scheme https if !{ ssl_fc }*_
+
+
+*:::: ALL DONE!*
