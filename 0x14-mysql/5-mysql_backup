@@ -13,4 +13,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-tar -czvf "$(date +%d-%m-%Y).tar.gz" backup.sql
+if [ -f backup.sql ]; then
+	tar -czvf "$(date '+%d-%m-%Y').tar.gz" backup.sql
+fi
