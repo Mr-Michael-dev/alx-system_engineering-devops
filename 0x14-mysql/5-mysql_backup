@@ -6,7 +6,7 @@ if [ $# -ne 1 ]; then
 	exit 1
 fi
 
-sudo mysqldump -u root -p"$1" --all-databases > backup.sql
+mysqldump -u root -p"$1" --all-databases > backup.sql
 
 if [ $? -ne 0 ]; then
 	echo "MySQL dump failed. Please check your password and try again."
@@ -14,5 +14,5 @@ if [ $? -ne 0 ]; then
 fi
 
 if [ -f backup.sql ]; then
-	tar -czvf "$(date '+%d-%m-%Y').tar.gz" backup.sql
+	tar -czf "$(date '+%d-%m-%Y').tar.gz" backup.sql
 fi
