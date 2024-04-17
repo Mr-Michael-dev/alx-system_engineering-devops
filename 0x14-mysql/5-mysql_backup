@@ -3,11 +3,6 @@
 
 mysqldump -uroot -p"$1" --opt --all-databases > backup.sql
 
-if [ $? -ne 0 ]; then
-	echo "MySQL dump failed. Please check your password and try again."
-	exit 1
-fi
-
 if [ -f backup.sql ]; then
 	tar -czvf "$(date '+%d-%m-%Y')".tar.gz backup.sql
 fi
