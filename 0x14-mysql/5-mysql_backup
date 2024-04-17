@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 # Generates a MySQL dump and creates a compressed archive out of it
 
-if [ $# -ne 1 ]; then
-	echo "Usage: $0 <yourmysqlpassword>"
-	exit 1
-fi
-
-mysqldump -u root -p"$1" --all-databases > backup.sql
+mysqldump -uroot -p"$1" --opt --all-databases > backup.sql
 
 if [ $? -ne 0 ]; then
 	echo "MySQL dump failed. Please check your password and try again."
@@ -14,5 +9,5 @@ if [ $? -ne 0 ]; then
 fi
 
 if [ -f backup.sql ]; then
-	tar -czf "$(date '+%d-%m-%Y').tar.gz" backup.sql
+	tar -czvf "$(date '+%d-%m-%Y')".tar.gz backup.sql
 fi
