@@ -1,20 +1,8 @@
 #!/usr/bin/env bash
 # Fix this container so that Nginx is running as the nginx user
-
-# Create nginx user (if it doesn't exist)
-useradd -r -s /sbin/nologin nginx
-
-# Set ownership of nginx binary and configuration directory
 chown -R nginx:nginx /usr/sbin/nginx /etc/nginx
-
-# Modify nginx configuration (assuming default location)
-sed -i '2i\user nginx;' /etc/nginx/nginx.conf
-
-# Update listen directive to listen on all interfaces (0.0.0.0) on port 8080
-sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
-
-# Restart nginx service
-sudo service nginx restart
-
-echo "Nginx is now configured to run as user 'nginx' and listen on port 8080."
-
+sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+chmod 644 /etc/nginx/nginx.conf
+pkill apache2
+sudo -u nginx service nginx restart
