@@ -2,6 +2,6 @@
 # Fix this container so that Nginx is running as the nginx user
 useradd -r -s /sbin/nologin nginx
 chown -R nginx:nginx /usr/sbin/nginx /etc/nginx
-sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/listen 80;/listen 0.0.0.0:8080;/' /etc/nginx/nginx.conf
-service nginx restart
+sed -i '2i\user nginx;' /etc/nginx/nginx.conf
+sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-availaible/default
+sudo service nginx restart
