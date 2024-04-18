@@ -3,5 +3,5 @@
 useradd -r -s /sbin/nologin nginx
 chown -R nginx:nginx /usr/sbin/nginx /etc/nginx
 sed -i '2i\user nginx;' /etc/nginx/nginx.conf
-sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-availaible/default
+sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
 sudo service nginx restart
