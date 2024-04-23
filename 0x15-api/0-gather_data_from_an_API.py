@@ -27,7 +27,7 @@ if __name__ == "__main__":
     for todo in todos:
         if todo.get('userId') == user_id:
             TOTAL_TASKS += 1
-            if todo.get('completed') == True:
+            if todo.get('completed') is True:
                 DONE += 1
 
     print(f"Employee {EMPLOYEE} is done with tasks ({DONE}/{TOTAL_TASKS}):")
