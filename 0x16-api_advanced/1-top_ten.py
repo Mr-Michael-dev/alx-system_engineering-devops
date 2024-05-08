@@ -6,7 +6,7 @@
 import requests
 
 
-def number_of_subscribers(subreddit):
+def top_ten(subreddit):
     url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=9"
 
     headers = {'User-Agent': 'ubuntu:apiProject/v1'}
