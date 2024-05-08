@@ -7,7 +7,7 @@ import requests
 
 
 def top_ten(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=9"
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
 
     headers = {'User-Agent': 'ubuntu:apiProject/v1'}
 
@@ -16,11 +16,7 @@ def top_ten(subreddit):
     if response.status_code == 200:
         data = response.json()
         posts = data['data']['children']
-        hot_posts_titles = []
         for post in posts:
-            post_data = post['data']
-            hot_posts_titles.append(post_data['title'])
-        for title in hot_posts_titles:
-            print(f"{title}")
+            print (post['data']['title'])
     else:
         print('None')
