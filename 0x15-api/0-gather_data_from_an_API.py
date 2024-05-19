@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     for user in users:
         if user.get('id') == user_id:
-            EMPLOYEE = user.get('username')
+            EMPLOYEE = user.get('name')
 
     for todo in todos:
         if todo.get('userId') == user_id:
@@ -34,4 +34,5 @@ if __name__ == "__main__":
 
     for task in todos:
         if task.get('userId') == user_id:
-            print(f"\t{task['title']}")
+            if task.get('completed') is True:
+                print(f"\t{task['title']}")
